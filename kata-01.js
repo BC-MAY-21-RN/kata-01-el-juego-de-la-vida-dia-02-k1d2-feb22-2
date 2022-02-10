@@ -1,6 +1,8 @@
 let alto = 8;
 let ancho =8;
 let cell; 
+let table;
+
 
 class Celula{
     x;
@@ -15,10 +17,16 @@ class Celula{
         this.estadoprox=estado;
         this.vecinos =[];
     }
+
+    getEstado(){
+        return this.estado;
+    }
     
     addVecinos(){
         let vecinoX;
         let vecinoY;
+        table =this.crearArray2D(alto,ancho);
+
         
         for(let i =-1; i<2;i++){
             for(let j = -1; j<2;i++){
@@ -27,7 +35,7 @@ class Celula{
                 vecinoY=this.y+i;
                 
                 if(i!=0 ||j!=0){
-                    this.vecinos.push(cell[vecinoY][vecinoX]);
+                    this.vecinos.push(table[vecinoY][vecinoX]);
                 }
             }
         }
@@ -53,6 +61,16 @@ class Celula{
             this.estadoprox=1;
         }
     }
+
+    crearArray2D(f,c){
+        let obj = new Array(f);
+        for(let y = 0; y<f ; y++){
+            obj[y]=new Array(c);
+    
+        }
+    
+        return obj;
+    }
 }
 
 function generarMatriz(){
@@ -67,8 +85,26 @@ function generarMatriz(){
         obj[y]=new Array(fila);
     }
     */
-    if(matriz != null){
+    if(matriz == null){
 
+        for (let y=0;y<alto;y++){
+            for(let x=0;x<ancho;x++){
+                var random = Math.floor(Math.random() * (10 - 1) + 1);
+    
+                if(random%2 == 0){
+                    cell = new Celula(x,y,1);
+                }
+                else{
+                    cell = new Celula(x,y,0);
+                   
+                }
+                matrizInterna.push(cell); //Agregamos la celula a matriz Interna (vector en eje x)   
+            }
+            
+            matriz.push(matrizInterna); //Agregamos la matrizInterna a la matriz general
+            matrizInterna = []; //Limpiamos matrizInterna para generar el siguiente vector en eje X
+        }
+           
     }
     else{
         for (let y=0;y<alto;y++){
